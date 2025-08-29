@@ -1,0 +1,298 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    entity: person.your_name
+    device: device_tracker.[YOUR_PHONE_NAME]_telefon
+    variables:
+      batt_s: sensor.[YOUR_PHONE_NAME]_battery_state
+      battery: sensor.[YOUR_PHONE_NAME]_battery_level
+      avatar_normal: /local/Marek_person.png
+      avatar_headphones: /local/Marek_music.png
+      media_player_spotify: media_player.spotify_[YOUR_SPOTIFY_NAME]
+    aspect_ratio: 2/1.4
+    name: Person
+    show_entity_picture: false
+    show_name: false
+    hold_action:
+      action: none
+    state:
+      - value: home
+        styles:
+          card:
+            - background-color: "#202124"
+          custom_fields:
+            icon:
+              - border-color: "#77c66e"
+    styles:
+      card:
+        - background-color: "#202124"
+        - border-radius: 5%
+        - padding: 2% 5% 5% 5%
+        - color: gray
+        - font-size: 12px
+        - text-shadow: 0px 0px 0px black
+        - text-transform: capitalize
+        - justify-self: center
+        - align-content: center
+      grid:
+        - grid-template-areas: "\"icon status\" \"icon battery\" \"icon wifi\" \"icon proximity\""
+        - grid-template-columns: 1.5fr 1fr
+        - grid-template-rows: 1fr 1fr 1fr 1fr
+        - align-content: center
+      name:
+        - font-size: 15px
+        - align-self: middle
+        - justify-self: start
+      custom_fields:
+        icon:
+          - clip-path: circle()
+          - width: 80%
+          - pointer-events: none
+          - display: grid
+          - border: 5px solid
+          - border-color: "#808080"
+          - border-radius: 500px
+          - margin: 0 0 0 0
+          - opacity: 1
+          - align-self: center
+          - justify-self: center
+        status:
+          - justify-self: start
+          - color: gray
+        proximity:
+          - align-self: middle
+          - justify-self: start
+          - color: gray
+        wifi:
+          - justify-self: start
+          - color: gray
+          - "--text-wifi-color-sensor": >-
+              [[[ if (variables.phone_wifi_sensor == '<not connected>') return
+              "#aaaaaa"; ]]]
+        battery:
+          - justify-self: center
+          - font-size: 1rem
+          - font-family: Raleway, sans-serif
+          - align-self: middle
+          - justify-self: start
+          - color: grey
+          - "--text-color-sensor": >-
+              [[[ if (variables.phone_battery_level_sensor < 35) return
+              "#EF4F1A"; ]]]
+        media:
+          - align-self: right
+          - position: absolute
+          - bottom: 3%
+          - right: 4%
+          - left: 4%
+          - color: >-
+              [[[if (states[variables.media_player_spotify].state == "playing")
+              return "lightgrey"; else return "#ffffff00"; ]]]          
+    custom_fields:
+      icon: >
+        [[[ 
+         if (states[variables.media_player_spotify].state =='playing') 
+         {
+        return entity === undefined ? null : `<img
+        src=${variables.avatar_headphones} width="100%">`; } else { return
+        entity === undefined ? null : `<img
+        src="${states[entity.entity_id].attributes.entity_picture}"
+        width="100%">`; } ]]]
+      status: |
+        [[[
+          if (entity.state =='not_home') { 
+          return `<ha-icon icon="mdi:home-export-outline"
+            style="width: 20px; height: 20px; color: '#888888';">
+            </ha-icon><span> On the way</span>`;
+          } 
+          if (entity.state =='home') { 
+          return `<ha-icon 
+            icon="mdi:home"
+            style="width: 20px; height: 20px; color: 888888;">
+            </ha-icon><span> ${entity.state}</span>`;
+          } else { 
+            if (entity.state =='[YOUR OTHER LOCATION]') { 
+            return `<ha-icon icon="mdi:pizza"
+              style="width: 20px; height: 20px; color: '#888888';">
+              </ha-icon><span> ${entity.state}</span>`;
+            }
+            else{
+            return `<ha-icon 
+              icon="mdi:map-marker-radius"
+              style="width: 20px; height: 20px; color: 888888;">
+              </ha-icon><span> ${entity.state}</span>`;
+            }
+          }
+        ]]]
+      battery: |
+        [[[
+          let batt_s = states[variables.batt_s].state
+            if (entity) {
+              return batt_s === 'charging' || batt_s === 'Charging' || batt_s === 'full' || batt_s === 'Full'
+                ? `⚡ ${states[variables.battery].state}%`
+                : batt_s === 'discharging' || batt_s === 'Not Charging' 
+                  ?  `🔋  ${states[variables.battery].state}%`
+                  :  `❓  ${states[variables.battery].state}%`;
+                  }
+                  ]]]
+      media: |
+        [[[ 
+         if (states[variables.media_player_spotify].state =='playing') { 
+          return `<marquee> <ha-icon
+            icon="mdi:music"
+            style="width: 20px; height: 20px;"></ha-icon
+            <span> ${states[variables.media_player_spotify].attributes.media_title}
+            - ${states[variables.media_player_spotify].attributes.media_artist} </marquee>`
+        } else {
+          
+        }
+        ]]]
+  - type: custom:button-card
+    entity: person.YOUR_NAME
+    device: device_tracker.YOUR_DEVICE
+    variables:
+      phone_battery_level_sensor: "[[[ return states[\"sensor.[YOUR_PHONE_NAME]_battery_level\"].state]]]"
+      phone_battery_state_sensor: "[[[ return states[\"sensor.[YOUR_PHONE_NAME]_battery_state\"].state]]]"
+      batt_s: sensor.[YOUR_PHONE_NAME]_battery_state
+      battery: sensor.[YOUR_PHONE_NAME]_battery_level
+      avatar_normal: /local/wiki_person.png
+      avatar_headphones: /local/wiki_music.png
+      media_player_spotify: media_player.spotify_[YOUR_SPOTIFY_NAME]
+    aspect_ratio: 2/1.4
+    name: Wiktoria
+    show_entity_picture: false
+    show_name: false
+    hold_action:
+      action: none
+    state:
+      - value: home
+        styles:
+          card:
+            - background-color: "#202124"
+          custom_fields:
+            icon:
+              - border-color: "#77c66e"
+    styles:
+      card:
+        - background-color: "#202124"
+        - border-radius: 5%
+        - padding: 2% 5% 5% 5%
+        - color: gray
+        - font-size: 12px
+        - text-shadow: 0px 0px 0px black
+        - text-transform: capitalize
+        - justify-self: center
+        - align-content: center
+      grid:
+        - grid-template-areas: "\"icon status\" \"icon battery\" \"icon wifi\" \"icon proximity\""
+        - grid-template-columns: 1.5fr 1fr
+        - grid-template-rows: 1fr 1fr 1fr 1fr
+        - align-content: center
+      name:
+        - font-size: 15px
+        - align-self: middle
+        - justify-self: start
+      custom_fields:
+        icon:
+          - clip-path: circle()
+          - width: 80%
+          - pointer-events: none
+          - display: grid
+          - border: 5px solid
+          - border-color: "#808080"
+          - border-radius: 500px
+          - margin: 0 0 0 0
+          - opacity: 1
+          - align-self: center
+          - justify-self: center
+        status:
+          - justify-self: start
+          - color: gray
+        proximity:
+          - align-self: middle
+          - justify-self: start
+          - color: gray
+        wifi:
+          - justify-self: start
+          - color: gray
+          - "--text-wifi-color-sensor": >-
+              [[[ if (variables.phone_wifi_sensor == '<not connected>') return
+              "#aaaaaa"; ]]]
+        battery:
+          - justify-self: center
+          - font-size: 1rem
+          - font-family: Raleway, sans-serif
+          - align-self: middle
+          - justify-self: start
+          - color: grey
+          - "--text-color-sensor": >-
+              [[[ if (variables.phone_battery_level_sensor < 35) return
+              "#EF4F1A"; ]]]
+        media:
+          - align-self: right
+          - position: absolute
+          - bottom: 3%
+          - right: 4%
+          - left: 4%
+          - color: >-
+              [[[if (states[variables.media_player_spotify].state == "playing")
+              return "lightgrey"; else return "#ffffff00"; ]]]          
+    custom_fields:
+      icon: >
+        [[[ 
+         if (states[variables.media_player_spotify].state =='playing') 
+         {
+        return entity === undefined ? null : `<img
+        src=${variables.avatar_headphones} width="100%">`; } else { return
+        entity === undefined ? null : `<img
+        src="${states[entity.entity_id].attributes.entity_picture}"
+        width="100%">`; } ]]]
+      status: |
+        [[[
+          if (entity.state =='not_home') { 
+          return `<ha-icon icon="mdi:home-export-outline"
+            style="width: 20px; height: 20px; color: '#888888';">
+            </ha-icon><span> On the way</span>`;
+          } 
+          if (entity.state =='home') { 
+          return `<ha-icon 
+            icon="mdi:home"
+            style="width: 20px; height: 20px; color: 888888;">
+            </ha-icon><span> ${entity.state}</span>`;
+          } else { 
+            if (entity.state =='[YOUR OTHER LOCATION]') { 
+            return `<ha-icon icon="mdi:pizza"
+              style="width: 20px; height: 20px; color: '#888888';">
+              </ha-icon><span> ${entity.state}</span>`;
+            }
+            else{
+            return `<ha-icon 
+              icon="mdi:map-marker-radius"
+              style="width: 20px; height: 20px; color: 888888;">
+              </ha-icon><span> ${entity.state}</span>`;
+            }
+          }
+        ]]]
+      battery: |
+        [[[
+          let batt_s = states[variables.batt_s].state
+            if (entity) {
+              return batt_s === 'charging' || batt_s === 'Charging' || batt_s === 'full' || batt_s === 'Full'
+                ? `⚡ ${states[variables.battery].state}%`
+                : batt_s === 'discharging' || batt_s === 'Not Charging' 
+                  ?  `🔋  ${states[variables.battery].state}%`
+                  :  `❓  ${states[variables.battery].state}%`;
+                  }
+                  ]]] 
+      media: |
+        [[[ 
+         if (states[variables.media_player_spotify].state =='playing') { 
+          return `<marquee> <ha-icon
+            icon="mdi:music"
+            style="width: 20px; height: 20px;"></ha-icon
+            <span> ${states[variables.media_player_spotify].attributes.media_title}
+            - ${states[variables.media_player_spotify].attributes.media_artist} </marquee>`
+        } else {
+          
+        }
+        ]]]
