@@ -15,8 +15,11 @@ In Home Assistant folder i will put a cards codes or yaml files
 ![menu](https://github.com/user-attachments/assets/bfd3f59a-db03-4702-856f-ed9492b86a4b)
 
 3 Person card HA
+
 Out From Home Wiyh Music
+
 ![menu](img/music_in_not_home.png)    
 
-In Home Without Music
+In Home Without Music and charging phone
+
 ![menu](img/music_out_home1.png)
