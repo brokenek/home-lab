@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @brokenek
-In Portainer folder = transmission_vpn client over Private Internet Access VPN
+
 
 
 In Home Assistant folder i will put a cards codes or yaml files 
